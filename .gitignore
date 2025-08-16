@@ -1,0 +1,39 @@
+# Dependencies
+node_modules/
+
+# Build outputs
+dist/
+build/
+
+# Environment files
+.env
+.env.local
+
+# IDE files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Temporary files
+*.tmp
+*.temp
+
+# Old/backup files
+old_files/
+backup/
+
+# Personal documents
+*.pdf
+!resume.pdf
+
+# Claude Code
+.claude/
+
+# Logs
+*.log

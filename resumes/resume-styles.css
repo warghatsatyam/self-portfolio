@@ -1,0 +1,435 @@
+/* Resume Styles - Professional ATS-Optimized Design */
+
+:root {
+    --primary-color: #1a1a2e;
+    --secondary-color: #0066ff;
+    --text-dark: #333333;
+    --text-light: #666666;
+    --border-color: #e0e0e0;
+    --bg-light: #f8f9fa;
+    --success-color: #28a745;
+    --spacing-xs: 0.25rem;
+    --spacing-sm: 0.5rem;
+    --spacing-md: 1rem;
+    --spacing-lg: 1.5rem;
+    --spacing-xl: 2rem;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Inter', 'Segoe UI', Arial, sans-serif;
+    font-size: 11pt;
+    line-height: 1.6;
+    color: var(--text-dark);
+    background: #ffffff;
+}
+
+.resume-container {
+    max-width: 8.5in;
+    margin: 0 auto;
+    padding: 0.75in;
+    background: white;
+    min-height: 11in;
+}
+
+/* Header Section */
+.resume-header {
+    text-align: center;
+    margin-bottom: var(--spacing-xl);
+    padding-bottom: var(--spacing-lg);
+    border-bottom: 3px solid var(--primary-color);
+}
+
+.resume-header h1 {
+    font-size: 28pt;
+    font-weight: 700;
+    color: var(--primary-color);
+    letter-spacing: -0.5px;
+    margin-bottom: var(--spacing-xs);
+}
+
+.tagline {
+    font-size: 14pt;
+    color: var(--secondary-color);
+    font-weight: 500;
+    margin-bottom: var(--spacing-md);
+}
+
+.contact-info {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: var(--spacing-md);
+    font-size: 10pt;
+    color: var(--text-light);
+}
+
+.contact-info span {
+    white-space: nowrap;
+}
+
+/* Section Styles */
+section {
+    margin-bottom: var(--spacing-xl);
+}
+
+section h2 {
+    font-size: 14pt;
+    font-weight: 700;
+    color: var(--primary-color);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    border-bottom: 2px solid var(--border-color);
+    padding-bottom: var(--spacing-xs);
+    margin-bottom: var(--spacing-md);
+}
+
+/* Summary Section */
+.summary p {
+    text-align: justify;
+    font-size: 11pt;
+    line-height: 1.7;
+    color: var(--text-dark);
+}
+
+/* Experience Section */
+.job {
+    margin-bottom: var(--spacing-lg);
+}
+
+.job-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: var(--spacing-md);
+}
+
+.job-header h3 {
+    font-size: 13pt;
+    font-weight: 600;
+    color: var(--primary-color);
+    margin-bottom: 2px;
+}
+
+.company {
+    font-size: 11pt;
+    color: var(--text-light);
+    font-style: italic;
+}
+
+.date {
+    font-size: 10pt;
+    color: var(--text-light);
+    font-weight: 500;
+    white-space: nowrap;
+}
+
+.achievements {
+    list-style: none;
+    padding-left: 0;
+}
+
+.achievements > li {
+    margin-bottom: var(--spacing-md);
+    position: relative;
+    padding-left: var(--spacing-lg);
+}
+
+.achievements > li::before {
+    content: "▸";
+    position: absolute;
+    left: 0;
+    color: var(--secondary-color);
+    font-weight: bold;
+    font-size: 14pt;
+}
+
+.achievements strong {
+    color: var(--primary-color);
+    font-weight: 600;
+}
+
+.sub-achievements {
+    list-style: none;
+    margin-top: var(--spacing-sm);
+    margin-left: var(--spacing-md);
+}
+
+.sub-achievements li {
+    position: relative;
+    padding-left: var(--spacing-md);
+    margin-bottom: var(--spacing-xs);
+    font-size: 10pt;
+    color: var(--text-light);
+}
+
+.sub-achievements li::before {
+    content: "•";
+    position: absolute;
+    left: 0;
+    color: var(--text-light);
+}
+
+/* Skills Section */
+.skills-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--spacing-md);
+}
+
+.skill-category h3 {
+    font-size: 11pt;
+    font-weight: 600;
+    color: var(--primary-color);
+    margin-bottom: var(--spacing-xs);
+}
+
+.skill-category p {
+    font-size: 10pt;
+    color: var(--text-dark);
+    line-height: 1.5;
+}
+
+/* Projects Section */
+.project {
+    margin-bottom: var(--spacing-lg);
+    padding: var(--spacing-md);
+    background: var(--bg-light);
+    border-left: 3px solid var(--secondary-color);
+    border-radius: 2px;
+}
+
+.project h3 {
+    font-size: 12pt;
+    font-weight: 600;
+    color: var(--primary-color);
+    margin-bottom: var(--spacing-xs);
+}
+
+.project-tech {
+    font-size: 10pt;
+    color: var(--text-light);
+    font-style: italic;
+    margin-bottom: var(--spacing-sm);
+}
+
+.project ul {
+    list-style: none;
+    padding-left: 0;
+}
+
+.project ul li {
+    position: relative;
+    padding-left: var(--spacing-lg);
+    margin-bottom: var(--spacing-xs);
+    font-size: 10pt;
+}
+
+.project ul li::before {
+    content: "→";
+    position: absolute;
+    left: 0;
+    color: var(--secondary-color);
+    font-weight: bold;
+}
+
+/* Achievements/Metrics Section */
+.metrics-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: var(--spacing-md);
+    margin-top: var(--spacing-md);
+}
+
+.metric {
+    text-align: center;
+    padding: var(--spacing-md);
+    background: var(--bg-light);
+    border-radius: 4px;
+    border-top: 3px solid var(--secondary-color);
+}
+
+.metric h3 {
+    font-size: 20pt;
+    font-weight: 700;
+    color: var(--secondary-color);
+    margin-bottom: var(--spacing-xs);
+}
+
+.metric p {
+    font-size: 9pt;
+    color: var(--text-light);
+    line-height: 1.4;
+}
+
+/* Education Section */
+.education-item {
+    margin-bottom: var(--spacing-md);
+}
+
+.edu-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+}
+
+.edu-header h3 {
+    font-size: 12pt;
+    font-weight: 600;
+    color: var(--primary-color);
+    margin-bottom: 2px;
+}
+
+.edu-header p {
+    font-size: 11pt;
+    color: var(--text-light);
+}
+
+/* Certifications Section */
+.cert-list {
+    list-style: none;
+    padding-left: 0;
+}
+
+.cert-list li {
+    position: relative;
+    padding-left: var(--spacing-lg);
+    margin-bottom: var(--spacing-sm);
+    font-size: 10pt;
+}
+
+.cert-list li::before {
+    content: "✓";
+    position: absolute;
+    left: 0;
+    color: var(--success-color);
+    font-weight: bold;
+}
+
+/* Interests Section */
+.interests p {
+    font-size: 10pt;
+    color: var(--text-dark);
+    text-align: center;
+}
+
+/* Print Note */
+.print-note {
+    margin-top: var(--spacing-xl);
+    padding: var(--spacing-md);
+    background: var(--bg-light);
+    border-radius: 4px;
+    text-align: center;
+}
+
+.print-note p {
+    font-size: 10pt;
+    color: var(--text-light);
+}
+
+/* Print Styles */
+@media print {
+    body {
+        font-size: 10pt;
+        line-height: 1.4;
+    }
+    
+    .resume-container {
+        padding: 0.5in;
+        max-width: 100%;
+    }
+    
+    .resume-header {
+        margin-bottom: var(--spacing-lg);
+        padding-bottom: var(--spacing-md);
+    }
+    
+    .resume-header h1 {
+        font-size: 22pt;
+    }
+    
+    .tagline {
+        font-size: 12pt;
+    }
+    
+    section {
+        margin-bottom: var(--spacing-lg);
+    }
+    
+    section h2 {
+        font-size: 12pt;
+        margin-bottom: var(--spacing-sm);
+    }
+    
+    .job {
+        margin-bottom: var(--spacing-md);
+    }
+    
+    .achievements > li {
+        margin-bottom: var(--spacing-sm);
+    }
+    
+    .metrics-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    
+    .print-note {
+        display: none;
+    }
+    
+    /* Prevent page breaks inside elements */
+    .job, .project, .education-item {
+        page-break-inside: avoid;
+    }
+    
+    /* Force page break before major sections if needed */
+    .experience {
+        page-break-before: auto;
+    }
+    
+    /* Remove backgrounds for better print quality */
+    .project, .metric, .print-note {
+        background: none;
+        border: 1px solid var(--border-color);
+    }
+}
+
+/* Responsive Design for Web Viewing */
+@media screen and (max-width: 768px) {
+    .resume-container {
+        padding: var(--spacing-md);
+    }
+    
+    .resume-header h1 {
+        font-size: 24pt;
+    }
+    
+    .contact-info {
+        flex-direction: column;
+        align-items: center;
+        gap: var(--spacing-xs);
+    }
+    
+    .skills-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .metrics-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    
+    .job-header {
+        flex-direction: column;
+        gap: var(--spacing-xs);
+    }
+    
+    .edu-header {
+        flex-direction: column;
+        gap: var(--spacing-xs);
+    }
+}
