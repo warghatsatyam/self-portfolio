@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Newsletter Subscription Setup</title>
+</head>
+<body>
+    <h1>Email Newsletter Implementation Guide</h1>
+
+    <h2>Option 1: ConvertKit (Best for Bloggers) - Free up to 1000 subscribers</h2>
+    
+    <!-- ConvertKit Form -->
+    <script async data-uid="YOUR_FORM_ID" src="https://prodigious-trader-7421.ck.page/YOUR_FORM_ID/index.js"></script>
+    
+    <h2>Option 2: EmailJS (Simple, No Backend) - Free tier available</h2>
+    
+    <form id="newsletter-form">
+        <input type="email" name="user_email" placeholder="Enter your email" required>
+        <input type="hidden" name="blog_url" value="https://yourdomain.com/blog">
+        <button type="submit">Subscribe</button>
+    </form>
+
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+    <script type="text/javascript">
+        (function() {
+            emailjs.init("YOUR_PUBLIC_KEY");
+            
+            document.getElementById('newsletter-form').addEventListener('submit', function(event) {
+                event.preventDefault();
+                
+                // Send welcome email
+                emailjs.sendForm('service_id', 'template_id', this)
+                    .then(function() {
+                        alert('Successfully subscribed!');
+                        // Store email in localStorage or send to Google Sheets
+                        const email = event.target.user_email.value;
+                        storeSubscriber(email);
+                    }, function(error) {
+                        alert('Failed to subscribe. Please try again.');
+                    });
+            });
+        })();
+        
+        function storeSubscriber(email) {
+            // Store in Google Sheets using Apps Script Web App
+            fetch('YOUR_GOOGLE_APPS_SCRIPT_URL', {
+                method: 'POST',
+                body: JSON.stringify({ email: email, date: new Date() })
+            });
+        }
+    </script>
+
+    <h2>Option 3: Netlify Forms + Zapier Integration</h2>
+    
+    <form name="newsletter" method="POST" data-netlify="true">
+        <input type="email" name="email" placeholder="Enter your email" required>
+        <button type="submit">Subscribe</button>
+    </form>
+    <!-- Netlify automatically handles this form -->
+    <!-- Connect to Zapier → Google Sheets → Email automation -->
+
+    <h2>Option 4: ButtonDown (Made for Developers) - Free tier</h2>
+    
+    <form
+        action="https://buttondown.email/api/emails"
+        method="post"
+        target="popupwindow"
+        onsubmit="window.open('https://buttondown.email/YOUR_USERNAME', 'popupwindow')"
+    >
+        <input type="email" name="email" placeholder="Your email" required>
+        <input type="hidden" value="1" name="embed"/>
+        <button type="submit">Subscribe</button>
+    </form>
+
+    <h2>Complete Implementation with Google Sheets + Email Automation</h2>
+    
+    <h3>Step 1: Google Apps Script (Save this as Code.gs)</h3>
+    <pre><code>
+function doPost(e) {
+  const sheet = SpreadsheetApp.openById('YOUR_SPREADSHEET_ID').getActiveSheet();
+  const data = JSON.parse(e.postData.contents);
+  
+  // Add subscriber to sheet
+  sheet.appendRow([data.email, new Date(), 'Active']);
+  
+  // Send welcome email
+  sendWelcomeEmail(data.email);
+  
+  return ContentService
+    .createTextOutput(JSON.stringify({ success: true }))
+    .setMimeType(ContentService.MimeType.JSON);
+}
+
+function sendWelcomeEmail(email) {
+  const subject = "Welcome to Satyam's Django Journey!";
+  const body = `
+    Hi there!
+    
+    Thank you for subscribing to my 30-Day Django Interview Prep series.
+    
+    You'll receive daily emails with:
+    - Django concepts explained simply
+    - Code examples you can run
+    - Interview tips and tricks
+    
+    Day 1 is already available: https://yourdomain.com/blog/django-day1-mvt-architecture.html
+    
+    Best,
+    Satyam
+  `;
+  
+  MailApp.sendEmail(email, subject, body);
+}
+
+// Function to send daily blog posts (run daily via trigger)
+function sendDailyBlogPost() {
+  const sheet = SpreadsheetApp.openById('YOUR_SPREADSHEET_ID').getActiveSheet();
+  const subscribers = sheet.getDataRange().getValues();
+  
+  const today = new Date();
+  const dayNumber = Math.floor((today - new Date('2024-12-26')) / (1000 * 60 * 60 * 24)) + 1;
+  
+  if (dayNumber <= 30) {
+    const blogPost = getBlogPostContent(dayNumber);
+    
+    subscribers.forEach(function(row) {
+      if (row[2] === 'Active') { // Check if subscriber is active
+        MailApp.sendEmail({
+          to: row[0],
+          subject: `Day ${dayNumber}: ${blogPost.title}`,
+          htmlBody: blogPost.content
+        });
+      }
+    });
+  }
+}
+    </code></pre>
+
+    <h3>Step 2: Set up Time-based Trigger in Google Apps Script</h3>
+    <p>Go to Triggers → Add Trigger → Choose sendDailyBlogPost → Time-driven → Day timer → 8-9am</p>
+
+    <h3>Step 3: Frontend Integration</h3>
+    <pre><code>
+// Add to your blog-script.js
+async function subscribeToNewsletter(email) {
+    const GOOGLE_SCRIPT_URL = 'YOUR_DEPLOYED_WEB_APP_URL';
+    
+    try {
+        const response = await fetch(GOOGLE_SCRIPT_URL, {
+            method: 'POST',
+            mode: 'no-cors',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ 
+                email: email,
+                source: 'blog',
+                timestamp: new Date().toISOString()
+            })
+        });
+        
+        // Show success message
+        alert('🎉 Welcome aboard! Check your email for confirmation.');
+        
+    } catch (error) {
+        console.error('Subscription error:', error);
+        alert('Something went wrong. Please try again.');
+    }
+}
+
+// Update all newsletter forms
+document.querySelectorAll('.newsletter-form').forEach(form => {
+    form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const email = form.querySelector('input[type="email"]').value;
+        await subscribeToNewsletter(email);
+        form.reset();
+    });
+});
+    </code></pre>
+</body>
+</html>

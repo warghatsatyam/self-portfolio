@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Email Templates for Blog</title>
+</head>
+<body>
+    <h1>Email Templates</h1>
+
+    <h2>Welcome Email Template</h2>
+    <div style="max-width: 600px; margin: 0 auto; font-family: 'Inter', sans-serif;">
+        <div style="background: linear-gradient(135deg, #0066ff 0%, #00a8ff 100%); padding: 40px; text-align: center; border-radius: 10px 10px 0 0;">
+            <h1 style="color: white; margin: 0;">Welcome to the Journey! 🚀</h1>
+        </div>
+        <div style="padding: 30px; background: #f8f9fa; border-radius: 0 0 10px 10px;">
+            <p style="font-size: 16px; line-height: 1.6;">Hi there!</p>
+            
+            <p style="font-size: 16px; line-height: 1.6;">
+                Thanks for joining my 30-Day Django Interview Prep series! You're about to receive daily, practical Django content that will level up your skills.
+            </p>
+            
+            <h3>What to expect:</h3>
+            <ul style="font-size: 16px; line-height: 1.8;">
+                <li>Daily Django concepts (5-10 min read)</li>
+                <li>Copy-paste code examples</li>
+                <li>Real interview questions</li>
+                <li>Building actual projects</li>
+            </ul>
+            
+            <div style="background: white; padding: 20px; border-radius: 8px; margin: 20px 0;">
+                <h3 style="margin-top: 0;">Start with Day 1:</h3>
+                <a href="https://yourdomain.com/blog/django-day1-mvt-architecture.html" 
+                   style="display: inline-block; background: #0066ff; color: white; padding: 12px 24px; text-decoration: none; border-radius: 6px; font-weight: 600;">
+                    Read Day 1: MVT Architecture
+                </a>
+            </div>
+            
+            <p style="font-size: 14px; color: #666;">
+                PS: Reply to this email if you have questions. I actually read and respond!
+            </p>
+            
+            <hr style="border: none; border-top: 1px solid #e0e0e0; margin: 30px 0;">
+            
+            <p style="font-size: 12px; color: #999; text-align: center;">
+                You're receiving this because you subscribed at satyamwarghat.com<br>
+                <a href="{unsubscribe_link}" style="color: #999;">Unsubscribe</a> | 
+                <a href="https://yourdomain.com" style="color: #999;">Visit Website</a>
+            </p>
+        </div>
+    </div>
+
+    <h2>Daily Blog Post Email Template</h2>
+    <div style="max-width: 600px; margin: 40px auto; font-family: 'Inter', sans-serif;">
+        <div style="background: white; border: 1px solid #e0e0e0; border-radius: 10px; overflow: hidden;">
+            <div style="background: #111; padding: 20px;">
+                <span style="background: linear-gradient(90deg, #0066ff 0%, #00a8ff 100%); 
+                             color: white; padding: 4px 12px; border-radius: 20px; 
+                             font-size: 12px; font-weight: 600;">
+                    DAY {day_number} of 30
+                </span>
+            </div>
+            
+            <div style="padding: 30px;">
+                <h2 style="font-size: 24px; margin: 0 0 10px 0; color: #111;">
+                    {post_title}
+                </h2>
+                
+                <p style="color: #666; font-size: 16px; line-height: 1.6;">
+                    {post_excerpt}
+                </p>
+                
+                <div style="background: #f8f9fa; padding: 20px; border-radius: 8px; margin: 20px 0;">
+                    <h4 style="margin-top: 0;">Today you'll learn:</h4>
+                    <ul style="margin: 10px 0; padding-left: 20px;">
+                        <li>{learning_point_1}</li>
+                        <li>{learning_point_2}</li>
+                        <li>{learning_point_3}</li>
+                    </ul>
+                </div>
+                
+                <a href="{post_url}" 
+                   style="display: inline-block; background: #0066ff; color: white; 
+                          padding: 14px 28px; text-decoration: none; border-radius: 8px; 
+                          font-weight: 600; font-size: 16px;">
+                    Read Today's Lesson →
+                </a>
+                
+                <div style="margin-top: 30px; padding-top: 20px; border-top: 1px solid #e0e0e0;">
+                    <p style="font-size: 14px; color: #666;">
+                        <strong>Quick tip:</strong> {daily_tip}
+                    </p>
+                </div>
+            </div>
+            
+            <div style="background: #f8f9fa; padding: 20px; text-align: center;">
+                <p style="font-size: 12px; color: #999; margin: 0;">
+                    30-Day Django Series by Satyam Warghat<br>
+                    <a href="{unsubscribe_link}" style="color: #999;">Unsubscribe</a>
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <h2>Implementation Steps:</h2>
+    <ol>
+        <li>Choose a platform (Netlify recommended for hosting)</li>
+        <li>Set up email service (ConvertKit or EmailJS for simplicity)</li>
+        <li>Deploy Google Apps Script for automation</li>
+        <li>Connect forms to email service</li>
+        <li>Schedule daily emails</li>
+    </ol>
+</body>
+</html>

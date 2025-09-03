@@ -1,0 +1,1596 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Claude Code: The Complete Manual</title>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&family=Inter:wght@400;500;600;700;900&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #0066ff;
+            --primary-dark: #0052cc;
+            --secondary: #00d4ff;
+            --accent: #ff6b6b;
+            --success: #00c896;
+            --warning: #ffd93d;
+            --dark: #0a0e27;
+            --dark-light: #1a1f3a;
+            --gray: #6c7293;
+            --light: #f5f7fa;
+            --white: #ffffff;
+            --gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --code-bg: #1e1e2e;
+            --border-radius: 12px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: linear-gradient(135deg, #0a0e27 0%, #1a1f3a 100%);
+            color: var(--light);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* Animated Background */
+        .bg-animation {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            z-index: -1;
+            opacity: 0.3;
+        }
+
+        .bg-animation::before {
+            content: '';
+            position: absolute;
+            width: 400px;
+            height: 400px;
+            background: radial-gradient(circle, var(--primary) 0%, transparent 70%);
+            left: -200px;
+            top: -200px;
+            animation: float 20s ease-in-out infinite;
+        }
+
+        .bg-animation::after {
+            content: '';
+            position: absolute;
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, var(--secondary) 0%, transparent 70%);
+            right: -300px;
+            bottom: -300px;
+            animation: float 25s ease-in-out infinite reverse;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translate(0, 0) rotate(0deg); }
+            33% { transform: translate(30px, -30px) rotate(120deg); }
+            66% { transform: translate(-20px, 20px) rotate(240deg); }
+        }
+
+        /* Header */
+        header {
+            background: rgba(26, 31, 58, 0.8);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            padding: 1rem 0;
+        }
+
+        .header-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--white);
+            text-decoration: none;
+        }
+
+        .logo-icon {
+            width: 40px;
+            height: 40px;
+            background: var(--gradient);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            gap: 2rem;
+        }
+
+        nav a {
+            color: var(--light);
+            text-decoration: none;
+            transition: color 0.3s;
+            font-weight: 500;
+        }
+
+        nav a:hover {
+            color: var(--primary);
+        }
+
+        /* Hero Section */
+        .hero {
+            padding: 6rem 2rem;
+            text-align: center;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .hero h1 {
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            font-weight: 900;
+            margin-bottom: 1.5rem;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero-subtitle {
+            font-size: 1.25rem;
+            color: var(--gray);
+            margin-bottom: 3rem;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 0.875rem 2rem;
+            border-radius: var(--border-radius);
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            border: none;
+            cursor: pointer;
+        }
+
+        .btn-primary {
+            background: var(--primary);
+            color: var(--white);
+        }
+
+        .btn-primary:hover {
+            background: var(--primary-dark);
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(0, 102, 255, 0.3);
+        }
+
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.1);
+            color: var(--white);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.15);
+            transform: translateY(-2px);
+        }
+
+        /* Container */
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        /* Sidebar Navigation */
+        .content-wrapper {
+            display: grid;
+            grid-template-columns: 280px 1fr;
+            gap: 3rem;
+            margin-top: 3rem;
+        }
+
+        .sidebar {
+            position: sticky;
+            top: 100px;
+            height: fit-content;
+        }
+
+        .sidebar-card {
+            background: rgba(26, 31, 58, 0.6);
+            backdrop-filter: blur(10px);
+            border-radius: var(--border-radius);
+            padding: 1.5rem;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .sidebar h3 {
+            color: var(--primary);
+            margin-bottom: 1rem;
+            font-size: 0.875rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+        }
+
+        .sidebar ul {
+            list-style: none;
+        }
+
+        .sidebar li {
+            margin-bottom: 0.75rem;
+        }
+
+        .sidebar a {
+            color: var(--gray);
+            text-decoration: none;
+            transition: all 0.3s;
+            display: block;
+            padding: 0.5rem 0.75rem;
+            border-radius: 6px;
+            font-size: 0.95rem;
+        }
+
+        .sidebar a:hover {
+            color: var(--white);
+            background: rgba(0, 102, 255, 0.1);
+            padding-left: 1rem;
+        }
+
+        .sidebar a.active {
+            color: var(--primary);
+            background: rgba(0, 102, 255, 0.15);
+            font-weight: 600;
+        }
+
+        /* Main Content */
+        .main-content {
+            min-height: 100vh;
+        }
+
+        .section {
+            margin-bottom: 4rem;
+            scroll-margin-top: 100px;
+        }
+
+        .section-card {
+            background: rgba(26, 31, 58, 0.4);
+            backdrop-filter: blur(10px);
+            border-radius: var(--border-radius);
+            padding: 2.5rem;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            margin-bottom: 2rem;
+        }
+
+        h2 {
+            font-size: 2rem;
+            margin-bottom: 1.5rem;
+            color: var(--white);
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        h2::before {
+            content: '#';
+            color: var(--primary);
+            opacity: 0.5;
+        }
+
+        h3 {
+            font-size: 1.5rem;
+            margin: 2rem 0 1rem;
+            color: var(--secondary);
+        }
+
+        h4 {
+            font-size: 1.25rem;
+            margin: 1.5rem 0 1rem;
+            color: var(--light);
+        }
+
+        p {
+            margin-bottom: 1rem;
+            color: rgba(245, 247, 250, 0.85);
+            line-height: 1.8;
+        }
+
+        /* Code Blocks */
+        pre {
+            background: var(--code-bg);
+            border-radius: var(--border-radius);
+            padding: 1.5rem;
+            overflow-x: auto;
+            margin: 1.5rem 0;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            position: relative;
+        }
+
+        pre::before {
+            content: 'BASH';
+            position: absolute;
+            top: 0.5rem;
+            right: 0.5rem;
+            background: rgba(0, 212, 255, 0.1);
+            color: var(--secondary);
+            padding: 0.25rem 0.75rem;
+            border-radius: 6px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            letter-spacing: 0.05em;
+        }
+
+        code {
+            font-family: 'JetBrains Mono', monospace;
+            color: var(--secondary);
+            background: rgba(0, 212, 255, 0.1);
+            padding: 0.2rem 0.4rem;
+            border-radius: 4px;
+            font-size: 0.9rem;
+        }
+
+        pre code {
+            background: none;
+            padding: 0;
+            color: var(--light);
+        }
+
+        /* Tables */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1.5rem 0;
+            background: rgba(26, 31, 58, 0.3);
+            border-radius: var(--border-radius);
+            overflow: hidden;
+        }
+
+        th {
+            background: rgba(0, 102, 255, 0.1);
+            color: var(--primary);
+            padding: 1rem;
+            text-align: left;
+            font-weight: 600;
+            text-transform: uppercase;
+            font-size: 0.875rem;
+            letter-spacing: 0.05em;
+        }
+
+        td {
+            padding: 1rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        tr:hover {
+            background: rgba(0, 102, 255, 0.05);
+        }
+
+        /* Lists */
+        ul, ol {
+            margin: 1rem 0 1rem 2rem;
+        }
+
+        li {
+            margin-bottom: 0.5rem;
+            color: rgba(245, 247, 250, 0.85);
+        }
+
+        /* Feature Cards */
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+
+        .feature-card {
+            background: rgba(26, 31, 58, 0.6);
+            border-radius: var(--border-radius);
+            padding: 1.5rem;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--primary);
+            box-shadow: 0 10px 30px rgba(0, 102, 255, 0.2);
+        }
+
+        .feature-icon {
+            width: 50px;
+            height: 50px;
+            background: var(--gradient);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .feature-title {
+            font-size: 1.25rem;
+            margin-bottom: 0.5rem;
+            color: var(--white);
+        }
+
+        .feature-description {
+            color: var(--gray);
+            font-size: 0.95rem;
+        }
+
+        /* Quick Reference */
+        .quick-ref {
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.1), rgba(118, 75, 162, 0.1));
+            border-radius: var(--border-radius);
+            padding: 2rem;
+            margin: 2rem 0;
+            border: 1px solid rgba(102, 126, 234, 0.3);
+        }
+
+        .quick-ref h4 {
+            color: var(--primary);
+            margin-bottom: 1rem;
+        }
+
+        /* Badges */
+        .badge {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.875rem;
+            font-weight: 600;
+            margin-right: 0.5rem;
+        }
+
+        .badge-primary {
+            background: rgba(0, 102, 255, 0.2);
+            color: var(--primary);
+        }
+
+        .badge-success {
+            background: rgba(0, 200, 150, 0.2);
+            color: var(--success);
+        }
+
+        .badge-warning {
+            background: rgba(255, 217, 61, 0.2);
+            color: var(--warning);
+        }
+
+        /* Footer */
+        footer {
+            margin-top: 6rem;
+            padding: 3rem 0;
+            background: rgba(10, 14, 39, 0.8);
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            text-align: center;
+        }
+
+        .footer-content {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-top: 1.5rem;
+        }
+
+        .footer-links a {
+            color: var(--gray);
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .footer-links a:hover {
+            color: var(--primary);
+        }
+
+        /* Mobile Responsive */
+        @media (max-width: 968px) {
+            .content-wrapper {
+                grid-template-columns: 1fr;
+            }
+
+            .sidebar {
+                display: none;
+            }
+
+            .header-content {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            nav ul {
+                flex-direction: column;
+                gap: 1rem;
+                text-align: center;
+            }
+
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+
+            .section-card {
+                padding: 1.5rem;
+            }
+
+            pre {
+                padding: 1rem;
+                font-size: 0.875rem;
+            }
+        }
+
+        /* Animations */
+        .fade-in {
+            animation: fadeIn 0.6s ease-in;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Scrollbar */
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--dark);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--primary);
+            border-radius: 5px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--primary-dark);
+        }
+
+        /* Copy Button for Code Blocks */
+        .code-container {
+            position: relative;
+        }
+
+        .copy-btn {
+            position: absolute;
+            top: 0.5rem;
+            right: 0.5rem;
+            background: rgba(0, 102, 255, 0.2);
+            color: var(--primary);
+            border: 1px solid var(--primary);
+            padding: 0.25rem 0.75rem;
+            border-radius: 6px;
+            font-size: 0.75rem;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .copy-btn:hover {
+            background: var(--primary);
+            color: var(--white);
+        }
+
+        /* Terminal Style */
+        .terminal {
+            background: #0a0e27;
+            border-radius: var(--border-radius);
+            padding: 1rem;
+            margin: 1.5rem 0;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        .terminal-header {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .terminal-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+        }
+
+        .terminal-dot.red { background: #ff5f57; }
+        .terminal-dot.yellow { background: #ffbd2e; }
+        .terminal-dot.green { background: #28ca42; }
+
+        .terminal-content {
+            color: var(--secondary);
+            font-size: 0.9rem;
+        }
+
+        .terminal-prompt {
+            color: var(--success);
+        }
+    </style>
+</head>
+<body>
+    <div class="bg-animation"></div>
+
+    <header>
+        <div class="header-content">
+            <a href="#" class="logo">
+                <div class="logo-icon">🤖</div>
+                <span>Claude Code Manual</span>
+            </a>
+            <nav>
+                <ul>
+                    <li><a href="#introduction">Introduction</a></li>
+                    <li><a href="#quickstart">Quick Start</a></li>
+                    <li><a href="#features">Features</a></li>
+                    <li><a href="#workflows">Workflows</a></li>
+                    <li><a href="https://docs.anthropic.com/claude-code" target="_blank">Docs</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <section class="hero">
+        <h1 class="fade-in">Claude Code: The Complete Manual</h1>
+        <p class="hero-subtitle fade-in">Your comprehensive guide to AI-powered development with Claude Code</p>
+        <div class="hero-buttons fade-in">
+            <a href="#installation" class="btn btn-primary">
+                <span>Get Started</span>
+                <span>→</span>
+            </a>
+            <a href="#features" class="btn btn-secondary">
+                <span>Explore Features</span>
+            </a>
+        </div>
+    </section>
+
+    <div class="container">
+        <div class="content-wrapper">
+            <aside class="sidebar">
+                <div class="sidebar-card">
+                    <h3>Navigation</h3>
+                    <ul>
+                        <li><a href="#introduction" class="active">Introduction</a></li>
+                        <li><a href="#installation">Installation & Setup</a></li>
+                        <li><a href="#features">Core Features</a></li>
+                        <li><a href="#cli">CLI Reference</a></li>
+                        <li><a href="#interactive">Interactive Mode</a></li>
+                        <li><a href="#commands">Slash Commands</a></li>
+                        <li><a href="#memory">Memory Management</a></li>
+                        <li><a href="#workflows">Common Workflows</a></li>
+                        <li><a href="#config">Configuration</a></li>
+                        <li><a href="#security">Security</a></li>
+                        <li><a href="#advanced">Advanced Features</a></li>
+                        <li><a href="#best-practices">Best Practices</a></li>
+                        <li><a href="#troubleshooting">Troubleshooting</a></li>
+                    </ul>
+                </div>
+            </aside>
+
+            <main class="main-content">
+                <!-- Introduction Section -->
+                <section id="introduction" class="section">
+                    <div class="section-card">
+                        <h2>Introduction</h2>
+                        <p>Claude Code is Anthropic's agentic coding tool designed to help developers turn ideas into code faster. It works directly in your terminal, can edit files, run commands, create commits, and integrates seamlessly with your existing development workflow.</p>
+                        
+                        <div class="feature-grid">
+                            <div class="feature-card">
+                                <div class="feature-icon">💡</div>
+                                <div class="feature-title">Natural Language</div>
+                                <div class="feature-description">Build features from plain English descriptions</div>
+                            </div>
+                            <div class="feature-card">
+                                <div class="feature-icon">🐛</div>
+                                <div class="feature-title">Debug & Fix</div>
+                                <div class="feature-description">Automatically identify and resolve code issues</div>
+                            </div>
+                            <div class="feature-card">
+                                <div class="feature-icon">🏗️</div>
+                                <div class="feature-title">Architecture</div>
+                                <div class="feature-description">Navigate and understand complex codebases</div>
+                            </div>
+                            <div class="feature-card">
+                                <div class="feature-icon">⚡</div>
+                                <div class="feature-title">Automation</div>
+                                <div class="feature-description">Automate tedious development tasks</div>
+                            </div>
+                            <div class="feature-card">
+                                <div class="feature-icon">🔧</div>
+                                <div class="feature-title">Direct Editing</div>
+                                <div class="feature-description">Edit files and run commands directly</div>
+                            </div>
+                            <div class="feature-card">
+                                <div class="feature-icon">🔗</div>
+                                <div class="feature-title">Git Integration</div>
+                                <div class="feature-description">Create commits and manage pull requests</div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Installation Section -->
+                <section id="installation" class="section">
+                    <div class="section-card">
+                        <h2>Installation & Setup</h2>
+                        
+                        <h3>Prerequisites</h3>
+                        <ul>
+                            <li>Terminal or command prompt</li>
+                            <li>Node.js 18 or newer (recommended)</li>
+                            <li>A code project to work with</li>
+                        </ul>
+
+                        <h3>Installation Methods</h3>
+                        
+                        <h4>Method 1: NPM (Recommended)</h4>
+                        <div class="terminal">
+                            <div class="terminal-header">
+                                <span class="terminal-dot red"></span>
+                                <span class="terminal-dot yellow"></span>
+                                <span class="terminal-dot green"></span>
+                            </div>
+                            <div class="terminal-content">
+                                <span class="terminal-prompt">$</span> npm install -g @anthropic-ai/claude-code
+                            </div>
+                        </div>
+
+                        <h4>Method 2: Native Install (Beta)</h4>
+                        <p>For macOS, Linux, WSL:</p>
+                        <div class="terminal">
+                            <div class="terminal-header">
+                                <span class="terminal-dot red"></span>
+                                <span class="terminal-dot yellow"></span>
+                                <span class="terminal-dot green"></span>
+                            </div>
+                            <div class="terminal-content">
+                                <span class="terminal-prompt">$</span> curl -fsSL claude.ai/install.sh | bash
+                            </div>
+                        </div>
+
+                        <p>For Windows PowerShell:</p>
+                        <div class="terminal">
+                            <div class="terminal-header">
+                                <span class="terminal-dot red"></span>
+                                <span class="terminal-dot yellow"></span>
+                                <span class="terminal-dot green"></span>
+                            </div>
+                            <div class="terminal-content">
+                                <span class="terminal-prompt">PS></span> irm https://claude.ai/install.ps1 | iex
+                            </div>
+                        </div>
+
+                        <h3>First Time Setup</h3>
+                        <div class="terminal">
+                            <div class="terminal-header">
+                                <span class="terminal-dot red"></span>
+                                <span class="terminal-dot yellow"></span>
+                                <span class="terminal-dot green"></span>
+                            </div>
+                            <div class="terminal-content">
+                                <span class="terminal-prompt">$</span> cd /path/to/your/project<br>
+                                <span class="terminal-prompt">$</span> claude<br>
+                                <span style="color: #00c896;">✓ Authenticated with Anthropic</span><br>
+                                <span style="color: #00c896;">✓ Ready to assist with your code!</span>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Core Features Section -->
+                <section id="features" class="section">
+                    <div class="section-card">
+                        <h2>Core Features</h2>
+                        
+                        <div class="quick-ref">
+                            <h4>🚀 Key Capabilities</h4>
+                            <div class="feature-grid">
+                                <div class="feature-card">
+                                    <h4>File Operations</h4>
+                                    <ul>
+                                        <li>Read and analyze any file</li>
+                                        <li>Make precise edits</li>
+                                        <li>Create new files when needed</li>
+                                        <li>Search patterns with regex</li>
+                                    </ul>
+                                </div>
+                                <div class="feature-card">
+                                    <h4>Command Execution</h4>
+                                    <ul>
+                                        <li>Run shell commands directly</li>
+                                        <li>Real-time output viewing</li>
+                                        <li>Background process support</li>
+                                        <li>Automatic safety checks</li>
+                                    </ul>
+                                </div>
+                                <div class="feature-card">
+                                    <h4>Git Integration</h4>
+                                    <ul>
+                                        <li>Create descriptive commits</li>
+                                        <li>Generate pull requests</li>
+                                        <li>Analyze git history</li>
+                                        <li>Branch management</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- CLI Reference Section -->
+                <section id="cli" class="section">
+                    <div class="section-card">
+                        <h2>CLI Reference</h2>
+                        
+                        <h3>Basic Commands</h3>
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Command</th>
+                                    <th>Description</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><code>claude</code></td>
+                                    <td>Start interactive REPL</td>
+                                </tr>
+                                <tr>
+                                    <td><code>claude "prompt"</code></td>
+                                    <td>Start with initial prompt</td>
+                                </tr>
+                                <tr>
+                                    <td><code>claude -p "query"</code></td>
+                                    <td>Query and exit (SDK mode)</td>
+                                </tr>
+                                <tr>
+                                    <td><code>claude -c</code></td>
+                                    <td>Continue most recent conversation</td>
+                                </tr>
+                                <tr>
+                                    <td><code>claude -r "id"</code></td>
+                                    <td>Resume specific session</td>
+                                </tr>
+                                <tr>
+                                    <td><code>claude update</code></td>
+                                    <td>Update Claude Code</td>
+                                </tr>
+                                <tr>
+                                    <td><code>claude mcp</code></td>
+                                    <td>Configure MCP servers</td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                        <h3>Command Line Flags</h3>
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Flag</th>
+                                    <th>Description</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><code>--add-dir</code></td>
+                                    <td>Add additional working directories</td>
+                                </tr>
+                                <tr>
+                                    <td><code>--allowedTools</code></td>
+                                    <td>Specify allowed tools (comma-separated)</td>
+                                </tr>
+                                <tr>
+                                    <td><code>--disallowedTools</code></td>
+                                    <td>Specify disallowed tools</td>
+                                </tr>
+                                <tr>
+                                    <td><code>-p, --print</code></td>
+                                    <td>Print response without interactive mode</td>
+                                </tr>
+                                <tr>
+                                    <td><code>--verbose</code></td>
+                                    <td>Enable detailed logging</td>
+                                </tr>
+                                <tr>
+                                    <td><code>--max-turns</code></td>
+                                    <td>Limit agentic turns (default: 10)</td>
+                                </tr>
+                                <tr>
+                                    <td><code>--model</code></td>
+                                    <td>Set session model</td>
+                                </tr>
+                                <tr>
+                                    <td><code>--permission-mode</code></td>
+                                    <td>Set permission mode (strict/relaxed)</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
+
+                <!-- Interactive Mode Section -->
+                <section id="interactive" class="section">
+                    <div class="section-card">
+                        <h2>Interactive Mode</h2>
+                        
+                        <h3>Keyboard Shortcuts</h3>
+                        <div class="feature-grid">
+                            <div class="feature-card">
+                                <h4>General Controls</h4>
+                                <ul>
+                                    <li><code>Ctrl+C</code> - Cancel current input</li>
+                                    <li><code>Ctrl+D</code> - Exit Claude Code</li>
+                                    <li><code>Ctrl+L</code> - Clear terminal</li>
+                                    <li><code>↑/↓</code> - Navigate history</li>
+                                    <li><code>Tab</code> - Auto-complete</li>
+                                    <li><code>Esc Esc</code> - Edit previous</li>
+                                </ul>
+                            </div>
+                            <div class="feature-card">
+                                <h4>Multiline Input</h4>
+                                <ul>
+                                    <li><code>\</code> + <code>Enter</code> - Quick escape</li>
+                                    <li><code>Option+Enter</code> - macOS default</li>
+                                    <li><code>Shift+Enter</code> - After setup</li>
+                                    <li><code>Ctrl+J</code> - Line feed</li>
+                                </ul>
+                            </div>
+                            <div class="feature-card">
+                                <h4>Vim Mode Navigation</h4>
+                                <ul>
+                                    <li><code>h/j/k/l</code> - Move cursor</li>
+                                    <li><code>w/e/b</code> - Word navigation</li>
+                                    <li><code>0/$</code> - Line start/end</li>
+                                    <li><code>gg/G</code> - File start/end</li>
+                                    <li><code>i/a/o</code> - Insert modes</li>
+                                    <li><code>dd/cc</code> - Delete/change</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Slash Commands Section -->
+                <section id="commands" class="section">
+                    <div class="section-card">
+                        <h2>Slash Commands</h2>
+                        
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Command</th>
+                                    <th>Description</th>
+                                    <th>Category</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><code>/help</code></td>
+                                    <td>Get usage help</td>
+                                    <td><span class="badge badge-primary">General</span></td>
+                                </tr>
+                                <tr>
+                                    <td><code>/clear</code></td>
+                                    <td>Clear conversation history</td>
+                                    <td><span class="badge badge-primary">General</span></td>
+                                </tr>
+                                <tr>
+                                    <td><code>/init</code></td>
+                                    <td>Initialize project with CLAUDE.md</td>
+                                    <td><span class="badge badge-success">Setup</span></td>
+                                </tr>
+                                <tr>
+                                    <td><code>/memory</code></td>
+                                    <td>Edit CLAUDE.md memory files</td>
+                                    <td><span class="badge badge-success">Setup</span></td>
+                                </tr>
+                                <tr>
+                                    <td><code>/agents</code></td>
+                                    <td>Manage custom AI subagents</td>
+                                    <td><span class="badge badge-warning">Advanced</span></td>
+                                </tr>
+                                <tr>
+                                    <td><code>/mcp</code></td>
+                                    <td>Manage MCP server connections</td>
+                                    <td><span class="badge badge-warning">Advanced</span></td>
+                                </tr>
+                                <tr>
+                                    <td><code>/cost</code></td>
+                                    <td>Show token usage statistics</td>
+                                    <td><span class="badge badge-primary">General</span></td>
+                                </tr>
+                                <tr>
+                                    <td><code>/review</code></td>
+                                    <td>Request code review</td>
+                                    <td><span class="badge badge-success">Development</span></td>
+                                </tr>
+                                <tr>
+                                    <td><code>/vim</code></td>
+                                    <td>Enter vim mode</td>
+                                    <td><span class="badge badge-primary">General</span></td>
+                                </tr>
+                                <tr>
+                                    <td><code>/bug</code></td>
+                                    <td>Report bugs to Anthropic</td>
+                                    <td><span class="badge badge-primary">Support</span></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
+
+                <!-- Memory Management Section -->
+                <section id="memory" class="section">
+                    <div class="section-card">
+                        <h2>Memory Management</h2>
+                        
+                        <h3>CLAUDE.md System</h3>
+                        <p>Claude Code uses a hierarchical memory system with four levels:</p>
+                        
+                        <div class="quick-ref">
+                            <h4>Memory Hierarchy</h4>
+                            <ol>
+                                <li><strong>Enterprise Policy</strong> - <code>/etc/claude/CLAUDE.md</code></li>
+                                <li><strong>Project Memory</strong> - <code>.claude/CLAUDE.md</code></li>
+                                <li><strong>User Memory</strong> - <code>~/.claude/CLAUDE.md</code></li>
+                                <li><strong>Local Project</strong> - <code>./CLAUDE.md</code> (deprecated)</li>
+                            </ol>
+                        </div>
+
+                        <h3>Best Practices for CLAUDE.md</h3>
+                        <pre><code># Project Overview
+Brief description of the project and its purpose
+
+## Architecture
+- Key components and their relationships
+- Technology stack
+- Design patterns used
+
+## Development Guidelines
+- Code style preferences
+- Testing requirements
+- Commit message format
+
+## Important Context
+- Business rules
+- Edge cases to consider
+- Performance requirements
+
+## Common Tasks
+- Build commands
+- Test commands
+- Deployment process</code></pre>
+
+                        <h3>Memory Shortcuts</h3>
+                        <div class="terminal">
+                            <div class="terminal-header">
+                                <span class="terminal-dot red"></span>
+                                <span class="terminal-dot yellow"></span>
+                                <span class="terminal-dot green"></span>
+                            </div>
+                            <div class="terminal-content">
+                                <span class="terminal-prompt">></span> # Remember to use snake_case for Python files<br>
+                                <span class="terminal-prompt">></span> /memory<br>
+                                <span class="terminal-prompt">></span> /init
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Common Workflows Section -->
+                <section id="workflows" class="section">
+                    <div class="section-card">
+                        <h2>Common Workflows</h2>
+                        
+                        <div class="feature-grid">
+                            <div class="feature-card">
+                                <h4>🔍 Understanding a New Codebase</h4>
+                                <pre><code>claude
+> what does this project do?
+> show me the main entry points
+> explain the data flow
+> what are the key dependencies?</code></pre>
+                            </div>
+                            <div class="feature-card">
+                                <h4>🚀 Feature Implementation</h4>
+                                <pre><code>claude
+> implement user auth with JWT
+> add input validation
+> write tests for the auth module
+> commit with descriptive message</code></pre>
+                            </div>
+                            <div class="feature-card">
+                                <h4>🐛 Debugging</h4>
+                                <pre><code>claude
+> why is this test failing?
+> fix the TypeError in user.js:42
+> run the tests again
+> explain what was wrong</code></pre>
+                            </div>
+                            <div class="feature-card">
+                                <h4>📝 Code Review</h4>
+                                <pre><code>claude
+> review my last commit
+> suggest performance improvements
+> check for security issues
+> /review</code></pre>
+                            </div>
+                            <div class="feature-card">
+                                <h4>🔧 Refactoring</h4>
+                                <pre><code>claude
+> refactor for readability
+> extract common logic
+> update the tests
+> ensure tests still pass</code></pre>
+                            </div>
+                            <div class="feature-card">
+                                <h4>🤔 Extended Thinking</h4>
+                                <pre><code>claude
+> think through the best architecture
+> think harder about scaling
+> consider all edge cases
+> plan the implementation</code></pre>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Configuration Section -->
+                <section id="config" class="section">
+                    <div class="section-card">
+                        <h2>Configuration & Settings</h2>
+                        
+                        <h3>Configuration Files</h3>
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Location</th>
+                                    <th>Purpose</th>
+                                    <th>Scope</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><code>~/.claude/settings.json</code></td>
+                                    <td>User settings</td>
+                                    <td>Personal</td>
+                                </tr>
+                                <tr>
+                                    <td><code>.claude/settings.json</code></td>
+                                    <td>Project settings (shared)</td>
+                                    <td>Team</td>
+                                </tr>
+                                <tr>
+                                    <td><code>.claude/settings.local.json</code></td>
+                                    <td>Project settings (personal)</td>
+                                    <td>Individual</td>
+                                </tr>
+                                <tr>
+                                    <td><code>/etc/claude/settings.json</code></td>
+                                    <td>Enterprise settings</td>
+                                    <td>Organization</td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                        <h3>Configuration Structure</h3>
+                        <pre><code>{
+  "model": "opus-4.1",
+  "permissionMode": "relaxed",
+  "tools": {
+    "allowed": ["read", "write", "bash"],
+    "disallowed": []
+  },
+  "notifications": {
+    "enabled": true,
+    "sound": false
+  },
+  "telemetry": {
+    "enabled": false
+  }
+}</code></pre>
+
+                        <h3>Environment Variables</h3>
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Variable</th>
+                                    <th>Description</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><code>ANTHROPIC_API_KEY</code></td>
+                                    <td>API authentication key</td>
+                                </tr>
+                                <tr>
+                                    <td><code>CLAUDE_CODE_USE_BEDROCK</code></td>
+                                    <td>Enable AWS Bedrock</td>
+                                </tr>
+                                <tr>
+                                    <td><code>CLAUDE_CODE_USE_VERTEX</code></td>
+                                    <td>Enable Google Vertex AI</td>
+                                </tr>
+                                <tr>
+                                    <td><code>DISABLE_TELEMETRY</code></td>
+                                    <td>Opt out of usage tracking</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
+
+                <!-- Security Section -->
+                <section id="security" class="section">
+                    <div class="section-card">
+                        <h2>Security & Privacy</h2>
+                        
+                        <div class="quick-ref">
+                            <h4>🔒 Security Model</h4>
+                            <ul>
+                                <li>Read-only by default</li>
+                                <li>Explicit approval for writes</li>
+                                <li>Scoped to working directory</li>
+                                <li>Context-aware threat detection</li>
+                                <li>Input sanitization</li>
+                                <li>Command blocklist</li>
+                            </ul>
+                        </div>
+
+                        <h3>Best Practices</h3>
+                        <div class="feature-grid">
+                            <div class="feature-card">
+                                <h4>Review Before Approval</h4>
+                                <pre><code>> Claude wants to run: rm -rf /
+> Approve? [y/N] N</code></pre>
+                            </div>
+                            <div class="feature-card">
+                                <h4>Use Virtual Environments</h4>
+                                <pre><code>docker run -it --rm \
+  -v $(pwd):/app \
+  node:latest claude</code></pre>
+                            </div>
+                            <div class="feature-card">
+                                <h4>Limit Permissions</h4>
+                                <pre><code>claude \
+  --disallowedTools bash,write</code></pre>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Advanced Features Section -->
+                <section id="advanced" class="section">
+                    <div class="section-card">
+                        <h2>Advanced Features</h2>
+                        
+                        <h3>Custom Agents</h3>
+                        <pre><code>/agents
+> create code-reviewer
+> set instructions "Focus on performance and security"
+> save</code></pre>
+
+                        <h3>Model Context Protocol (MCP)</h3>
+                        <pre><code>claude mcp
+> add github
+> authenticate
+> query "show my recent PRs"</code></pre>
+
+                        <h3>Scripting & Automation</h3>
+                        <pre><code># Automated testing pipeline
+echo "run tests" | claude -p "fix any failures" && \
+claude -p "commit the fixes"
+
+# Continuous monitoring
+watch -n 60 'claude -p "check for security updates"'</code></pre>
+
+                        <h3>Tool Composition</h3>
+                        <pre><code>claude
+> find all TODO comments | create github issues for each
+> run tests | fix failures | commit when green</code></pre>
+                    </div>
+                </section>
+
+                <!-- Best Practices Section -->
+                <section id="best-practices" class="section">
+                    <div class="section-card">
+                        <h2>Best Practices</h2>
+                        
+                        <div class="feature-grid">
+                            <div class="feature-card">
+                                <h4>✅ Effective Prompting</h4>
+                                <ul>
+                                    <li>Be specific and clear</li>
+                                    <li>Provide context when needed</li>
+                                    <li>Break complex tasks into steps</li>
+                                    <li>Use examples when helpful</li>
+                                </ul>
+                            </div>
+                            <div class="feature-card">
+                                <h4>📁 Project Organization</h4>
+                                <pre><code>project/
+├── .claude/
+│   ├── CLAUDE.md
+│   ├── settings.json
+│   └── commands.json
+├── src/
+└── tests/</code></pre>
+                            </div>
+                            <div class="feature-card">
+                                <h4>⚡ Performance Tips</h4>
+                                <ul>
+                                    <li>Use <code>/compact</code> to reduce tokens</li>
+                                    <li>Clear history when switching contexts</li>
+                                    <li>Use specific file references</li>
+                                    <li>Batch related requests</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <h3>Workflow Optimization</h3>
+                        <ol>
+                            <li><strong>Start with understanding:</strong> <code>> explain the project structure</code></li>
+                            <li><strong>Plan before implementing:</strong> <code>> outline the steps to implement X</code></li>
+                            <li><strong>Test incrementally:</strong> <code>> run tests after each change</code></li>
+                            <li><strong>Document as you go:</strong> <code>> update CLAUDE.md with new patterns</code></li>
+                        </ol>
+                    </div>
+                </section>
+
+                <!-- Troubleshooting Section -->
+                <section id="troubleshooting" class="section">
+                    <div class="section-card">
+                        <h2>Troubleshooting</h2>
+                        
+                        <h3>Common Issues and Solutions</h3>
+                        
+                        <div class="feature-grid">
+                            <div class="feature-card">
+                                <h4>Installation Problems</h4>
+                                <pre><code># npm install fails
+nvm use 18
+npm install -g @anthropic-ai/claude-code
+
+# Command not found
+export PATH="$PATH:$(npm root -g)/bin"</code></pre>
+                            </div>
+                            <div class="feature-card">
+                                <h4>Permission Errors</h4>
+                                <pre><code># Cannot edit files
+/permissions
+claude config set permissionMode relaxed
+
+# Command blocked
+claude --dangerously-skip-permissions</code></pre>
+                            </div>
+                            <div class="feature-card">
+                                <h4>Performance Issues</h4>
+                                <pre><code># Slow responses
+/compact
+/clear
+
+# Token limit reached
+/cost
+# Consider upgrading plan</code></pre>
+                            </div>
+                            <div class="feature-card">
+                                <h4>Connection Problems</h4>
+                                <pre><code># Authentication failed
+/logout
+/login
+
+# API errors
+/status
+/doctor</code></pre>
+                            </div>
+                        </div>
+
+                        <h3>Getting Help</h3>
+                        <ul>
+                            <li><strong>Built-in Help:</strong> <code>/help</code> or <code>claude --help</code></li>
+                            <li><strong>Documentation:</strong> <a href="https://docs.anthropic.com/claude-code" target="_blank">Official Docs</a></li>
+                            <li><strong>Community:</strong> <a href="https://github.com/anthropics/claude-code/issues" target="_blank">GitHub Issues</a></li>
+                            <li><strong>Bug Reporting:</strong> Use <code>/bug</code> command</li>
+                        </ul>
+                    </div>
+                </section>
+
+                <!-- Quick Reference Section -->
+                <section id="quick-reference" class="section">
+                    <div class="section-card">
+                        <h2>Quick Reference Card</h2>
+                        
+                        <div class="quick-ref">
+                            <h4>Essential Commands</h4>
+                            <pre><code>claude              # Start interactive mode
+claude -c           # Continue last session
+claude -p "query"   # Quick query and exit
+/help              # Get help
+/clear             # Clear history
+/memory            # Edit CLAUDE.md
+/cost              # Check usage
+Ctrl+C             # Cancel
+Ctrl+D             # Exit</code></pre>
+                        </div>
+
+                        <div class="quick-ref">
+                            <h4>File Operations</h4>
+                            <pre><code>> read file.js
+> edit line 42 in file.js
+> create new-file.py
+> find "pattern" in src/</code></pre>
+                        </div>
+
+                        <div class="quick-ref">
+                            <h4>Git Operations</h4>
+                            <pre><code>> commit changes
+> create PR
+> show git status
+> create branch feature-x</code></pre>
+                        </div>
+
+                        <h3>Model Comparison</h3>
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Model</th>
+                                    <th>Best For</th>
+                                    <th>Speed</th>
+                                    <th>Context</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Opus 4.1</td>
+                                    <td>Complex tasks, large codebases</td>
+                                    <td><span class="badge badge-warning">Medium</span></td>
+                                    <td>200K</td>
+                                </tr>
+                                <tr>
+                                    <td>Sonnet 3.5</td>
+                                    <td>General coding, quick responses</td>
+                                    <td><span class="badge badge-success">Fast</span></td>
+                                    <td>200K</td>
+                                </tr>
+                                <tr>
+                                    <td>Haiku 3.5</td>
+                                    <td>Simple tasks, rapid iteration</td>
+                                    <td><span class="badge badge-success">Very Fast</span></td>
+                                    <td>200K</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
+            </main>
+        </div>
+    </div>
+
+    <footer>
+        <div class="footer-content">
+            <p>Claude Code represents a paradigm shift in AI-assisted development.</p>
+            <p style="color: var(--gray); margin-top: 1rem;">Remember: Claude Code is a tool to augment your capabilities, not replace your judgment.</p>
+            <div class="footer-links">
+                <a href="https://docs.anthropic.com/claude-code" target="_blank">Documentation</a>
+                <a href="https://github.com/anthropics/claude-code" target="_blank">GitHub</a>
+                <a href="https://anthropic.com" target="_blank">Anthropic</a>
+                <a href="https://discord.gg/anthropic" target="_blank">Discord</a>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Smooth scrolling for navigation
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Active navigation highlighting
+        const sections = document.querySelectorAll('.section');
+        const navLinks = document.querySelectorAll('.sidebar a');
+
+        window.addEventListener('scroll', () => {
+            let current = '';
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop;
+                const sectionHeight = section.clientHeight;
+                if (scrollY >= (sectionTop - 150)) {
+                    current = section.getAttribute('id');
+                }
+            });
+
+            navLinks.forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('href').slice(1) === current) {
+                    link.classList.add('active');
+                }
+            });
+        });
+
+        // Copy code functionality
+        document.querySelectorAll('pre').forEach(block => {
+            const wrapper = document.createElement('div');
+            wrapper.className = 'code-container';
+            block.parentNode.insertBefore(wrapper, block);
+            wrapper.appendChild(block);
+
+            const button = document.createElement('button');
+            button.className = 'copy-btn';
+            button.textContent = 'Copy';
+            wrapper.appendChild(button);
+
+            button.addEventListener('click', () => {
+                const code = block.querySelector('code') || block;
+                navigator.clipboard.writeText(code.textContent).then(() => {
+                    button.textContent = 'Copied!';
+                    setTimeout(() => {
+                        button.textContent = 'Copy';
+                    }, 2000);
+                });
+            });
+        });
+
+        // Add fade-in animation on scroll
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('fade-in');
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.feature-card, .section-card').forEach(el => {
+            observer.observe(el);
+        });
+    </script>
+</body>
+</html>

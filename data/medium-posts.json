@@ -1,0 +1,30 @@
+{
+  "posts": [
+    {
+      "title": "Python Encapsulation: Why Properties Beat Getter/Setter Methods",
+      "url": "https://medium.com/@warghatsatyam33/python-encapsulation-why-properties-beat-getter-setter-methods-88ff1e58a0d5",
+      "excerpt": "Learn how Python's approach to encapsulation differs from other languages and why it's actually more powerful",
+      "date": "2025-01-03",
+      "readTime": 8,
+      "tags": ["Python", "OOP", "Encapsulation"],
+      "categories": ["python", "tutorial"],
+      "featured": true
+    }
+  ],
+  "_instructions": {
+    "note": "Add your Medium articles here. Each post should have:",
+    "fields": {
+      "title": "Article title as it appears on Medium",
+      "url": "Full URL to your Medium article",
+      "excerpt": "Brief description (max 150 chars)",
+      "date": "Publication date (YYYY-MM-DD)",
+      "readTime": "Estimated reading time in minutes",
+      "imageUrl": "Optional - URL to article's featured image",
+      "tags": "Array of display tags (shown on card)",
+      "categories": "Array of filter categories (lowercase, matches blog filters)",
+      "seriesName": "Optional - If part of a series",
+      "featured": "Boolean - true to show at top of page"
+    },
+    "example_categories": ["python", "django", "ai", "tutorial", "javascript", "react", "system-design"]
+  }
+}

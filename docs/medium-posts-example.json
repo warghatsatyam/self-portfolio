@@ -1,0 +1,36 @@
+{
+  "posts": [
+    {
+      "title": "Understanding Django MVT Architecture",
+      "url": "https://medium.com/@warghatsatyam/django-mvt-architecture",
+      "excerpt": "Deep dive into Django's Model-View-Template pattern and how it differs from traditional MVC.",
+      "date": "2025-01-02",
+      "readTime": 8,
+      "imageUrl": "",
+      "tags": ["Django", "Python", "Web Development"],
+      "categories": ["django", "python", "tutorial"],
+      "seriesName": "Django Mastery Series",
+      "featured": true
+    },
+    {
+      "title": "Python Encapsulation: From Basic to Pythonic",
+      "url": "https://medium.com/@warghatsatyam/python-encapsulation",
+      "excerpt": "Learn how Python's approach to encapsulation differs from other languages and why it's more powerful.",
+      "date": "2024-12-28",
+      "readTime": 12,
+      "tags": ["Python", "OOP", "Best Practices"],
+      "categories": ["python", "tutorial"],
+      "featured": false
+    },
+    {
+      "title": "Building Production-Ready APIs with Django REST Framework",
+      "url": "https://medium.com/@warghatsatyam/django-rest-framework-guide",
+      "excerpt": "Complete guide to building scalable REST APIs serving Fortune 500 clients.",
+      "date": "2024-12-20",
+      "readTime": 15,
+      "tags": ["Django", "REST API", "Backend"],
+      "categories": ["django", "python", "tutorial"],
+      "featured": false
+    }
+  ]
+}

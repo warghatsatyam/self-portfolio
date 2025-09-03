@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Understanding Django MVT Architecture and building a mini blog project - Day 1 of 30-Day Django Interview Prep">
+    <title>Understanding Django: MVT Architecture and a Mini Blog Project - Satyam Warghat</title>
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;900&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+    
+    <!-- Styles -->
+    <link rel="stylesheet" href="../styles.css">
+    <link rel="stylesheet" href="../blog-styles.css">
+    
+    <style>
+        /* Syntax highlighting for code blocks */
+        .language-python { color: #3572A5; }
+        .language-bash { color: #89e051; }
+        .language-html { color: #e34c26; }
+        pre code { font-family: 'JetBrains Mono', monospace; }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar" role="navigation" aria-label="Main navigation">
+        <div class="nav-container">
+            <a href="../index.html" class="nav-logo" aria-label="Home">
+                <span class="logo-text">SW</span>
+            </a>
+            
+            <button class="nav-toggle" aria-label="Toggle navigation" aria-expanded="false">
+                <span class="hamburger"></span>
+            </button>
+            
+            <ul class="nav-menu">
+                <li><a href="../index.html#work" class="nav-link">Work</a></li>
+                <li><a href="../index.html#about" class="nav-link">About</a></li>
+                <li><a href="../blog.html" class="nav-link active">Blog</a></li>
+                <li><a href="../index.html#contact" class="nav-link nav-cta">Let's Talk</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Blog Post -->
+    <article class="blog-post-page">
+        <div class="post-container">
+            <header class="post-full-header">
+                <div class="post-series-badge">30-Day Django Series - Day 1</div>
+                <h1 class="post-full-title">Understanding Django: MVT Architecture and a Mini Blog Project</h1>
+                <div class="post-meta-info">
+                    <span>December 26, 2024</span>
+                    <span>•</span>
+                    <span>8 min read</span>
+                    <span>•</span>
+                    <span>Django, Python, Tutorial</span>
+                </div>
+            </header>
+
+            <div class="post-content">
+                <p>Django is a high-level Python web framework that enables rapid development with clean, pragmatic design. On <strong>Day 1</strong> of my Django interview prep journey, I focused on understanding <strong>what Django is</strong>, the <strong>MVT architecture</strong>, and creating a <strong>mini blog project</strong> to solidify the concepts.</p>
+
+                <h2>What is Django?</h2>
+                
+                <p>Django is a "batteries-included" framework. It comes with built-in features like ORM, authentication, admin interface, templates, and security tools. This makes it perfect for developers who want to <strong>rapidly build robust web applications</strong> without reinventing the wheel.</p>
+
+                <h2>MVT vs MVC</h2>
+                
+                <p>Django follows the <strong>MVT (Model–View–Template)</strong> pattern, which is a variation of the classic MVC (Model–View–Controller):</p>
+
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Aspect</th>
+                            <th>MVC</th>
+                            <th>Django MVT</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Model</strong></td>
+                            <td>Handles data & DB logic</td>
+                            <td>Same as MVC</td>
+                        </tr>
+                        <tr>
+                            <td><strong>View</strong></td>
+                            <td>Handles UI rendering</td>
+                            <td>Template handles UI rendering</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Controller</strong></td>
+                            <td>Handles business logic + routing</td>
+                            <td>View handles logic (acts as Controller)</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Routing</strong></td>
+                            <td>Usually in Controller</td>
+                            <td>Handled by Django's URL dispatcher</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <p><strong>Key takeaway:</strong> In Django, the "Controller" is hidden inside the framework, making it easier to focus on <strong>writing views and templates</strong>.</p>
+
+                <h2>Mini Project: My First Django Blog</h2>
+                
+                <p>To put theory into practice, I built a <strong>simple blog app</strong>.</p>
+
+                <h3>Step 1: Create Project and App</h3>
+                
+                <div class="code-block-wrapper">
+                    <button class="copy-button" onclick="copyCode(this)">Copy</button>
+                    <pre><code class="language-bash">django-admin startproject blogproject
+cd blogproject
+python manage.py startapp blog</code></pre>
+                </div>
+
+                <h3>Step 2: Define Model</h3>
+                
+                <div class="code-block-wrapper">
+                    <button class="copy-button" onclick="copyCode(this)">Copy</button>
+                    <pre><code class="language-python">from django.db import models
+
+class Post(models.Model):
+    title = models.CharField(max_length=200)
+    content = models.TextField()
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.title</code></pre>
+                </div>
+
+                <ul>
+                    <li>Run migrations: <code>makemigrations</code> + <code>migrate</code></li>
+                </ul>
+
+                <h3>Step 3: Add View</h3>
+                
+                <div class="code-block-wrapper">
+                    <button class="copy-button" onclick="copyCode(this)">Copy</button>
+                    <pre><code class="language-python">from django.shortcuts import render
+from .models import Post
+
+def home(request):
+    posts = Post.objects.all()
+    return render(request, "blog/home.html", {"posts": posts})</code></pre>
+                </div>
+
+                <h3>Step 4: Configure URL</h3>
+                
+                <div class="code-block-wrapper">
+                    <button class="copy-button" onclick="copyCode(this)">Copy</button>
+                    <pre><code class="language-python">from django.urls import path
+from . import views
+
+urlpatterns = [
+    path("", views.home, name="home"),
+]</code></pre>
+                </div>
+
+                <h3>Step 5: Create Template</h3>
+                
+                <div class="code-block-wrapper">
+                    <button class="copy-button" onclick="copyCode(this)">Copy</button>
+                    <pre><code class="language-html">&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+&lt;head&gt;
+    &lt;title&gt;Django MVT Example&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+    &lt;h1&gt;My Blog&lt;/h1&gt;
+    {% for post in posts %}
+        &lt;h2&gt;{{ post.title }}&lt;/h2&gt;
+        &lt;p&gt;{{ post.content }}&lt;/p&gt;
+        &lt;small&gt;{{ post.created_at }}&lt;/small&gt;
+    {% empty %}
+        &lt;p&gt;No posts yet!&lt;/p&gt;
+    {% endfor %}
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>
+                </div>
+
+                <p>✅ <strong>Result:</strong> The homepage dynamically shows all posts stored in the database.</p>
+
+                <h2>Unit Testing</h2>
+                
+                <p>I also learned how to write <strong>basic unit tests</strong> to ensure the app works as expected:</p>
+
+                <div class="code-block-wrapper">
+                    <button class="copy-button" onclick="copyCode(this)">Copy</button>
+                    <pre><code class="language-python">from django.test import TestCase
+from .models import Post
+
+class PostModelTest(TestCase):
+    def setUp(self):
+        self.post = Post.objects.create(title="Test Post", content="Hello Django")
+
+    def test_post_creation(self):
+        self.assertEqual(self.post.title, "Test Post")
+        self.assertEqual(str(self.post), "Test Post")</code></pre>
+                </div>
+
+                <ul>
+                    <li>Run tests: <code>python manage.py test</code></li>
+                    <li>Tests verify the <strong>model creation</strong> and <code>__str__</code> method.</li>
+                </ul>
+
+                <h2>Key Learnings</h2>
+                
+                <ol>
+                    <li>Django uses <strong>MVT instead of MVC</strong>, making development more streamlined.</li>
+                    <li><strong>Models handle data</strong>, <strong>Views handle logic</strong>, <strong>Templates handle presentation</strong>.</li>
+                    <li>The <strong>Django admin interface</strong> is powerful for quickly managing data.</li>
+                    <li><strong>Unit testing</strong> is important even for small projects—it ensures your code works and builds confidence.</li>
+                    <li>Following <strong>best practices</strong> like separating logic and presentation makes your app scalable.</li>
+                </ol>
+
+                <h2>Best Practices</h2>
+                
+                <ul>
+                    <li>Keep business logic in <strong>Views</strong>, not Templates.</li>
+                    <li>Use <strong>Template Inheritance</strong> to avoid duplicate HTML.</li>
+                    <li>Name URLs clearly and use <code>{% url 'home' %}</code> in templates.</li>
+                    <li>Write <strong>unit tests</strong> from the start.</li>
+                </ul>
+
+                <h2>Next Steps</h2>
+                
+                <p>Tomorrow, I'll dive into <strong>Django ORM CRUD operations</strong> and <strong>Forms</strong> to accept user input dynamically. This will let me build a fully functional blog where users can <strong>create and submit posts via a form</strong>.</p>
+
+                <blockquote>
+                    <p>💡 <strong>Takeaway:</strong> Day 1 is all about <strong>understanding Django's architecture and setting up a foundation</strong>. A solid grasp of MVT and a working mini project will make the next topics much easier.</p>
+                </blockquote>
+            </div>
+
+            <!-- Post Navigation -->
+            <nav class="post-navigation">
+                <a href="../blog.html" class="post-nav-link">
+                    <div class="post-nav-label">← Back to Blog</div>
+                    <div class="post-nav-title">All Posts</div>
+                </a>
+                <a href="#" class="post-nav-link" style="pointer-events: none; opacity: 0.5;">
+                    <div class="post-nav-label">Next in Series →</div>
+                    <div class="post-nav-title">Day 2: Django Project Structure (Coming Soon)</div>
+                </a>
+            </nav>
+
+            <!-- Newsletter CTA -->
+            <div class="blog-newsletter" style="margin-top: var(--spacing-2xl);">
+                <h3>Continue Your Django Journey</h3>
+                <p>Get daily Django tips and interview prep content delivered to your inbox.</p>
+                <form class="newsletter-form">
+                    <input type="email" placeholder="Enter your email" required>
+                    <button type="submit" class="btn btn-primary">Subscribe</button>
+                </form>
+            </div>
+        </div>
+    </article>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-brand">
+                    <span class="footer-logo">SW</span>
+                    <p class="footer-tagline">Building & Learning in Public</p>
+                </div>
+                
+                <div class="footer-links">
+                    <a href="../index.html">Home</a>
+                    <a href="../blog.html">Blog</a>
+                    <a href="../index.html#contact">Contact</a>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p>&copy; 2024 Satyam Warghat. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="../blog-script.js"></script>
+    <script>
+        function copyCode(button) {
+            // Get the code element
+            const codeBlock = button.parentElement.querySelector('code');
+            const codeText = codeBlock.textContent || codeBlock.innerText;
+            
+            // Create a temporary textarea to copy the text
+            const textarea = document.createElement('textarea');
+            textarea.value = codeText;
+            textarea.style.position = 'fixed';
+            textarea.style.opacity = '0';
+            document.body.appendChild(textarea);
+            
+            // Select and copy the text
+            textarea.select();
+            document.execCommand('copy');
+            document.body.removeChild(textarea);
+            
+            // Update button text
+            const originalText = button.textContent;
+            button.textContent = 'Copied!';
+            button.classList.add('copied');
+            
+            // Reset button text after 2 seconds
+            setTimeout(() => {
+                button.textContent = originalText;
+                button.classList.remove('copied');
+            }, 2000);
+        }
+    </script>
+</body>
+</html>

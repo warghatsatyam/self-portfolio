@@ -1,24 +1,36 @@
 // Mobile Navigation Toggle
-const navToggle = document.querySelector('.nav-toggle');
-const navMenu = document.querySelector('.nav-menu');
-const navLinks = document.querySelectorAll('.nav-link');
-const hamburger = document.querySelector('.hamburger');
+document.addEventListener('DOMContentLoaded', () => {
+    const navToggle = document.querySelector('.nav-toggle');
+    const navMenu = document.querySelector('.nav-menu');
+    const navLinks = document.querySelectorAll('.nav-link');
+    const hamburger = document.querySelector('.hamburger');
 
-navToggle.addEventListener('click', () => {
-    navMenu.classList.toggle('active');
-    const isExpanded = navToggle.getAttribute('aria-expanded') === 'true';
-    navToggle.setAttribute('aria-expanded', !isExpanded);
-    
-    // Animate hamburger
-    hamburger.classList.toggle('active');
-});
+    if (navToggle) {
+        navToggle.addEventListener('click', () => {
+            navMenu.classList.toggle('active');
+            const isExpanded = navToggle.getAttribute('aria-expanded') === 'true';
+            navToggle.setAttribute('aria-expanded', !isExpanded);
+            
+            // Animate hamburger
+            if (hamburger) {
+                hamburger.classList.toggle('active');
+            }
+        });
+    }
 
-// Close mobile menu when clicking a link
-navLinks.forEach(link => {
-    link.addEventListener('click', () => {
-        navMenu.classList.remove('active');
-        navToggle.setAttribute('aria-expanded', false);
-        hamburger.classList.remove('active');
+    // Close mobile menu when clicking a link
+    navLinks.forEach(link => {
+        link.addEventListener('click', () => {
+            if (navMenu) {
+                navMenu.classList.remove('active');
+            }
+            if (navToggle) {
+                navToggle.setAttribute('aria-expanded', false);
+            }
+            if (hamburger) {
+                hamburger.classList.remove('active');
+            }
+        });
     });
 });
 
@@ -184,6 +196,30 @@ if (heroImage) {
         heroImage.style.transform = `translateY(${scrolled * parallaxSpeed}px)`;
     });
 }
+
+// Animate skill progress bars on scroll
+const animateSkillBars = () => {
+    const skillBars = document.querySelectorAll('.skill-progress');
+    
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                const width = entry.target.getAttribute('data-width');
+                entry.target.style.width = width + '%';
+                observer.unobserve(entry.target);
+            }
+        });
+    }, {
+        threshold: 0.5
+    });
+    
+    skillBars.forEach(bar => {
+        observer.observe(bar);
+    });
+};
+
+// Initialize skill bars animation
+document.addEventListener('DOMContentLoaded', animateSkillBars);
 
 // Count animation for stats (only for numeric values)
 const stats = document.querySelectorAll('.stat-number');
@@ -362,9 +398,48 @@ const preloadResources = () => {
     document.head.appendChild(link);
 };
 
+// Scroll to Top Button Functionality
+const scrollToTopButton = () => {
+    const button = document.getElementById('scrollToTop');
+    
+    if (!button) return;
+    
+    // Show/hide button based on scroll position
+    const toggleButton = () => {
+        if (window.pageYOffset > 300) {
+            button.classList.add('visible');
+        } else {
+            button.classList.remove('visible');
+        }
+    };
+    
+    // Scroll to top when clicked
+    button.addEventListener('click', () => {
+        window.scrollTo({
+            top: 0,
+            behavior: 'smooth'
+        });
+    });
+    
+    // Listen for scroll events (debounced for performance)
+    let scrollTimeout;
+    window.addEventListener('scroll', () => {
+        if (scrollTimeout) {
+            window.cancelAnimationFrame(scrollTimeout);
+        }
+        scrollTimeout = window.requestAnimationFrame(() => {
+            toggleButton();
+        });
+    });
+    
+    // Initial check
+    toggleButton();
+};
+
 // Initialize on DOM load
 document.addEventListener('DOMContentLoaded', () => {
     preloadResources();
+    scrollToTopButton();
     
     // Add loading animation
     document.body.style.opacity = '0';

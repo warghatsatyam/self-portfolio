@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Technical blog by Satyam Warghat - Django, Python, AI/ML tutorials and insights from real-world development">
+    <title>Blog - Satyam Warghat</title>
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;900&display=swap" rel="stylesheet">
+    
+    <!-- Styles -->
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/blog-styles.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar" role="navigation" aria-label="Main navigation">
+        <div class="nav-container">
+            <a href="index.html" class="nav-logo" aria-label="Home">
+                <span class="logo-text">SW</span>
+            </a>
+            
+            <button class="nav-toggle" aria-label="Toggle navigation" aria-expanded="false">
+                <span class="hamburger"></span>
+            </button>
+            
+            <ul class="nav-menu">
+                <li><a href="index.html#work" class="nav-link">Work</a></li>
+                <li><a href="index.html#about" class="nav-link">About</a></li>
+                <li><a href="blog.html" class="nav-link active">Blog</a></li>
+                <li><a href="index.html#contact" class="nav-link nav-cta">Let's Talk</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Blog Header -->
+    <header class="blog-header">
+        <div class="container">
+            <h1 class="blog-title">Technical Blog</h1>
+            <p class="blog-subtitle">My Technical Articles on Medium - Django, Python, AI & More</p>
+            
+            <div class="blog-categories">
+                <button class="category-btn active" data-category="all">All Posts</button>
+                <button class="category-btn" data-category="django">Django</button>
+                <button class="category-btn" data-category="python">Python</button>
+                <button class="category-btn" data-category="ai">AI/ML</button>
+                <button class="category-btn" data-category="tutorial">Tutorials</button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Blog Posts Grid -->
+    <section class="blog-posts">
+        <div class="container">
+            <div class="posts-grid">
+                <!-- Medium posts will be dynamically loaded here -->
+            </div>
+
+            <!-- Newsletter CTA -->
+            <div class="blog-newsletter">
+                <h3>Follow My Technical Journey</h3>
+                <p>Subscribe to get notified when I publish new technical articles on Medium.</p>
+                <form class="newsletter-form">
+                    <input type="email" placeholder="Enter your email" required>
+                    <button type="submit" class="btn btn-primary">Subscribe</button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-brand">
+                    <span class="footer-logo">SW</span>
+                    <p class="footer-tagline">Building & Learning in Public</p>
+                </div>
+                
+                <div class="footer-links">
+                    <a href="index.html">Home</a>
+                    <a href="blog.html">Blog</a>
+                    <a href="index.html#contact">Contact</a>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p>&copy; 2024 Satyam Warghat. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scroll to Top Button -->
+    <button id="scrollToTop" class="scroll-to-top" aria-label="Scroll to top">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M18 15l-6-6-6 6"/>
+        </svg>
+    </button>
+    
+    <script src="js/blog-script.js"></script>
+    <script src="js/medium-integration.js"></script>
+    <script>
+        // Scroll to Top Button for Blog Page
+        const button = document.getElementById('scrollToTop');
+        if (button) {
+            const toggleButton = () => {
+                if (window.pageYOffset > 300) {
+                    button.classList.add('visible');
+                } else {
+                    button.classList.remove('visible');
+                }
+            };
+            
+            button.addEventListener('click', () => {
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            });
+            
+            let scrollTimeout;
+            window.addEventListener('scroll', () => {
+                if (scrollTimeout) window.cancelAnimationFrame(scrollTimeout);
+                scrollTimeout = window.requestAnimationFrame(toggleButton);
+            });
+            
+            toggleButton();
+        }
+    </script>
+</body>
+</html>
