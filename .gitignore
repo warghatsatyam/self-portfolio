@@ -29,8 +29,7 @@ old_files/
 backup/
 
 # Personal documents
-*.pdf
-!resume.pdf
+
 
 # Claude Code
 .claude/
