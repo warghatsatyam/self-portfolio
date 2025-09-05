@@ -9,6 +9,16 @@
       "tags": ["Python", "OOP", "Encapsulation"],
       "categories": ["python", "tutorial"],
       "featured": true
+    },
+    {
+      "title": "Python Inheritance & MRO: The Complete Guide",
+      "url": "https://medium.com/codex/python-inheritance-mro-the-complete-guide-934337ff58d4",
+      "excerpt": "Master Python inheritance, Method Resolution Order (MRO), and multiple inheritance with practical examples",
+      "date": "2025-01-05",
+      "readTime": 14,
+      "tags": ["Python", "OOP", "Inheritance", "MRO"],
+      "categories": ["python", "tutorial"],
+      "featured": true
     }
   ],
   "_instructions": {
